@@ -146,7 +146,7 @@
             this.lblComment.AutoSize = true;
             this.lblComment.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblComment.ForeColor = System.Drawing.Color.White;
-            this.lblComment.Location = new System.Drawing.Point(11, 243);
+            this.lblComment.Location = new System.Drawing.Point(12, 203);
             this.lblComment.Name = "lblComment";
             this.lblComment.Size = new System.Drawing.Size(90, 16);
             this.lblComment.TabIndex = 10;
@@ -185,7 +185,6 @@
             this.Controls.Add(this.btnProcesar);
             this.Name = "FormGetEmails";
             this.Text = "Get Emails";
-            this.Load += new System.EventHandler(this.FormGetEmails_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

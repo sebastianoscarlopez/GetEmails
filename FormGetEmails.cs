@@ -15,7 +15,7 @@ namespace GetEmail
     {
         readonly RequestEmailsFromUrl getEmails = new RequestEmailsFromUrl();
         readonly ExcelHelper excel = new ExcelHelper();
-        readonly string ERROR_EXCEL = "Fallo al intentar abrir el archivo, asegurese que esta cerrado";
+        readonly string ERROR_EXCEL = "Failed - Please close the Excel";
         List<UrlDTO> urls;
 
         public FormGetEmails()
@@ -25,6 +25,8 @@ namespace GetEmail
 
         private void btnProcesar_Click(object sender, EventArgs e)
         {
+            lblComment.Text = "Wait a moment please. . .";
+            lblComment.Visible = true;
             foreach (var urlDTO in urls)
             {
                 var emails = getEmails.Request(urlDTO.url);
@@ -33,11 +35,9 @@ namespace GetEmail
                     urlDTO.emails.AddRange(emails);
                 }
             }
-        }
-
-        private void FormGetEmails_Load(object sender, EventArgs e)
-        {
-
+            var idxSheet = cmbSheets.SelectedIndex + 1;
+            excel.saveEmails(txtPath.Text, idxSheet, urls);
+            lblComment.Text = "Finish - Open the Excel";
         }
 
         private void btnOpen_Click(object sender, EventArgs e)

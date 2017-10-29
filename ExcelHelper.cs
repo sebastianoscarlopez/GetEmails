@@ -10,6 +10,23 @@ namespace GetEmail
 {
     class ExcelHelper
     {
+        public void saveEmails(string path, int idxSheet, List<UrlDTO> urls)
+        {
+            using (var xlPackage = new ExcelPackage(new System.IO.FileInfo(path)))
+            {
+                var sheet = xlPackage.Workbook.Worksheets[idxSheet];
+                foreach (var urlDTO in urls)
+                {
+                    var totalEmails = urlDTO.emails.Count();
+                    for (var idxEmail = 0; idxEmail < totalEmails; idxEmail++)
+                    {
+                        sheet.SetValue(urlDTO.idxRow, urlDTO.idxColumn + idxEmail + 1, urlDTO.emails[idxEmail]);
+                    }
+                }
+                xlPackage.Save();
+            }
+        }
+
         public List<UrlDTO> getUrls(string path, int idxSheet, int idxColumnFrom)
         {
             using (var xlPackage = new ExcelPackage(new System.IO.FileInfo(path)))
@@ -19,13 +36,16 @@ namespace GetEmail
                 var urls = new List<UrlDTO>();
                 for (int idx = 1; idx <= totalRows; idx++)
                 {
-                    var url = (sheet.GetValue(idx, idxColumnFrom)??"").ToString();
-                    urls.Add(new UrlDTO
+                    var url = (sheet.GetValue(idx, idxColumnFrom)??"").ToString().Trim();
+                    if (url.Contains("."))
                     {
-                        url = url,
-                        idxColumn = idxColumnFrom,
-                        idxRow = idx
-                    });
+                        urls.Add(new UrlDTO
+                        {
+                            url = url,
+                            idxColumn = idxColumnFrom,
+                            idxRow = idx
+                        });
+                    }
 
                 }
                 return urls;
